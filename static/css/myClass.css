@@ -1,0 +1,17 @@
+/* 动画 */
+.mytransition{
+    transition: all ease-out 0.3s;
+}
+/* 清除浮动 */
+.clearfix{
+	*zoom:1;
+}
+.clearfix:before,
+.clearfix:after
+{
+	display: table;
+	content: "";
+}
+.clearfix:after{
+	clear:both;
+}
