@@ -73,7 +73,7 @@ const actions = {
             })
         })
         commit('SET_TOTAL_PRICE', temp)
-        
+
     },
     selectChange({ commit, state, dispatch }, data) {
         let isAllInSelect = true                    //当前组的全选按钮是否显示
@@ -89,18 +89,18 @@ const actions = {
         })
         if (isAllInSelect) {
             let param = {
-                type:1,
+                type: 1,
                 e,
-                display:'block'
+                display: 'block'
             }
             return dispatch('btnShow', param).then(() => {
                 return dispatch('handleChange')
             })
         } else {
             let param = {
-                type:1,
+                type: 1,
                 e,
-                display:'none'
+                display: 'none'
             }
             return dispatch('btnShow', param).then(() => {
                 // 计算总额
@@ -129,17 +129,17 @@ const actions = {
                 })
                 // 全选按钮勾选
                 let param = {
-                    type:3,
-                    e:null,
-                    display:'block'
+                    type: 3,
+                    e: null,
+                    display: 'block'
                 }
                 return dispatch('btnShow', param).then(() => {
                     // 所有按钮显示
                     // this.btnShow(2,null,true)
                     let param = {
-                        type:2,
-                        e:null,
-                        display:true
+                        type: 2,
+                        e: null,
+                        display: true
                     }
                     return dispatch('btnShow', param)
                 })
@@ -149,16 +149,16 @@ const actions = {
                 })
                 // 全选按钮取消勾选
                 let param = {
-                    type:3,
-                    e:null,
-                    display:'none'
+                    type: 3,
+                    e: null,
+                    display: 'none'
                 }
                 return dispatch('btnShow', param).then(() => {
                     // 所有按钮隐藏                    
                     let param = {
-                        type:2,
-                        e:null,
-                        display:false
+                        type: 2,
+                        e: null,
+                        display: false
                     }
                     return dispatch('btnShow', param)
                 })
@@ -218,6 +218,60 @@ const actions = {
             default:
                 break;
         }
+    },
+    loadInformation({ commit, state }, data) {
+        // let { username, password, state } = data
+        let username = data.username
+        let password = data.password
+        let _state = data.state
+
+        if (_state == 'register') {
+            //注册，添加用户信息
+            let information = {
+                username,
+                headImgUrl: '../../../../static/img/logo.png',               //头像
+                name: '新用户',                                              //昵称
+                phoneNum: null,                                              //手机号
+                money: null,                                                 //余额
+                redPaper: null,                                              //红包
+                coupon: null,                                                //优惠券
+                integral: null                                               //积分
+            }
+            let u_password = {
+                username,
+                password
+            }
+            commit('ADD_INFORMATION', information);
+            commit('ADD_PASSWORD', u_password);
+        } else if (_state == 'login') {
+            console.log("登录");
+            
+            //登录，根据用户名添加用户信息
+            state.password.forEach(item => {
+                if(item.username == username){
+                    if(item.password == password){
+                        let _data = {}
+                        // 在所有用户中查找对应用户
+                        state.allUser.forEach(item => {
+                            if(item.username = username){
+                                _data = item
+                                console.log('登录成功');
+                                commit('SET_INFORMATION',_data)
+                                
+                            }
+                        })
+                        return;
+                    }else{
+                        alert('用户名密码不一致')
+                    }
+                }else{
+                    alert('用户名不存在')
+                }
+            })
+        }
+
+
+
     },
     // ========================测试=========================
     test1({ commit, state, dispatch }, param1) {

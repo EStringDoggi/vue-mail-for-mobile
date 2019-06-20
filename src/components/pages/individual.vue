@@ -3,8 +3,12 @@
     <div class="box">
         <!-- 背景图 -->
         <div class="bg"></div>
+        <!-- 登录注册模块 -->
+        <div class="login" v-show="!information.username" @click="login">
+            登录\注册
+        </div>
         <!-- 个人信息 -->
-        <div class="myInformation">
+        <div class="myInformation" v-show="information.username">
             <!-- 头像 -->
             <div class="head">
                 <img :src="information.headImgUrl" alt="">
@@ -185,12 +189,21 @@ export default {
     computed: {
         ...mapState(['information']),
         phoneNum:function(){
-            return this.information.phoneNum.toString().replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')
+            if(this.information.phoneNum){
+                return this.information.phoneNum.toString().replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')
+            }
         },
         money:function(){
-            return this.information.money.toFixed(2)
+            if(this.information.money){
+                return this.information.money.toFixed(2)
+            }
         }
     },
+    methods:{
+        login(){
+            this.$router.push('login')
+        }
+    }
 }
 </script>
 <style lang='less' scoped>
@@ -220,6 +233,17 @@ export default {
             left: 0;
             background-color: rgba(19, 131, 244, 0.8);
         }
+    }
+    // 注册登录
+    .login{
+        position: absolute;
+        top: 4em;
+        left: 2em;
+        border: 2px solid #fff;
+        padding: 0.5em 1em;
+        border-radius: 15px;
+        color: #fff;
+        background-color: #0099ff;
     }
     // 个人信息
     .myInformation{
