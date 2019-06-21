@@ -13,7 +13,7 @@ var state = {
     //当前用户数据
     information:{
         username:'',                                //用户名
-        headImgUrl:'',                              //头像
+        headImgUrl:'../../../../static/img/logo.png',                              //头像
         name:'',                                    //昵称
         phoneNum:null,                              //手机号
         money:null,                                 //余额
@@ -41,6 +41,62 @@ var state = {
     },
     register:{
         success:false
+    },
+    news:{
+        data:[
+            {
+                id:1,
+                title:'物流消息',
+                text:'内容内容内容内容内容内容',
+                date:'06-21 18:00',
+                img:'../../../../static/img/individual/2-16.png',
+                chat:[
+                    {
+                        username:'colin',
+                        isSeller:false,
+                        text:'第一条聊天内容'
+                    },
+                    {
+                        username:'colin',
+                        isSeller:true,
+                        text:'第二条聊天内容'
+                    },
+                    {
+                        username:'colin',
+                        isSeller:false,
+                        text:'第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容'
+                    }
+                ]
+            },
+            {
+                id:2,
+                title:'物流消息',
+                text:'内容内容内容内容内容内容',
+                date:'06-21 18:00',
+                img:'../../../../static/img/individual/2-16.png'
+            },
+            {
+                id:3,
+                title:'物流消息',
+                text:'内容内容内容内容内容内容',
+                date:'06-21 18:00',
+                img:'../../../../static/img/individual/2-16.png'
+            },
+            {
+                id:4,
+                title:'物流消息',
+                text:'内容内容内容内容内容内容',
+                date:'06-21 18:00',
+                img:'../../../../static/img/individual/2-16.png'
+            },
+            {
+                id:5,
+                title:'物流消息',
+                text:'内容内容内容内容内容内容',
+                date:'06-21 18:00',
+                img:'../../../../static/img/individual/2-16.png'
+            }
+        ]
     }   
 }
 

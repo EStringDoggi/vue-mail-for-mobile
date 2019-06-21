@@ -5,6 +5,7 @@ import goodsList from '../components/pages/goodsList.vue'             //商品�
 import goodsDetail from '../components/pages/goodsDetail.vue'         //商品详细
 import individual from '../components/pages/individual.vue'           //个人中心
 import news from '../components/pages/news.vue'                       //消息列表
+import chatBox from '../components/pages/chatBox.vue'                       //消息列表
 import shoppingCart from '../components/pages/shoppingCart.vue'       //购物车
 import login from '../components/pages/login.vue'                     //登录
 import register from '../components/pages/register.vue'               //注册
@@ -38,6 +39,10 @@ export default new Router({
       path: '/m.shop/news',
       name: 'news',
       component: news
+    },{
+      path: '/m.shop/chatBox',
+      name: 'chatBox',
+      component:chatBox
     },{
       path: '/m.shop/shoppingCart',
       name: 'shoppingCart',
