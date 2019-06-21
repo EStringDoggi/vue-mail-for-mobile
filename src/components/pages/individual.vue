@@ -7,6 +7,9 @@
         <div class="login" v-show="!information.username" @click="login">
             登录\注册
         </div>
+        <div class="logout" v-show="information.username" @click='_logout'>
+            注销
+        </div>
         <!-- 个人信息 -->
         <div class="myInformation" v-show="information.username">
             <!-- 头像 -->
@@ -194,14 +197,18 @@ export default {
             }
         },
         money:function(){
-            if(this.information.money){
+            if(this.information.money || this.information.money == 0){
                 return this.information.money.toFixed(2)
             }
         }
     },
     methods:{
+        ...mapActions(['logout']),
         login(){
             this.$router.push('login')
+        },
+        _logout(){
+            this.logout()
         }
     }
 }
@@ -244,6 +251,18 @@ export default {
         border-radius: 15px;
         color: #fff;
         background-color: #0099ff;
+    }
+    // 注销
+    .logout{
+        position: absolute;
+        top: 4em;
+        right: 2em;
+        border: 2px solid #fff;
+        padding: 0.5em 1em;
+        border-radius: 15px;
+        color: #fff;
+        background-color: #0099ff;
+        z-index: 999;
     }
     // 个人信息
     .myInformation{

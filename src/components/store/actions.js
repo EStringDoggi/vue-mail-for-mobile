@@ -224,18 +224,30 @@ const actions = {
         let username = data.username
         let password = data.password
         let _state = data.state
+        let findUser = false
+
 
         if (_state == 'register') {
+            //判断新用户重名
+            state.password.forEach(item=>{
+                if(item.username == username){
+                    findUser = true
+                    alert('用户名已存在')
+                }
+            })
+            if(findUser){
+                return;
+            }
             //注册，添加用户信息
             let information = {
                 username,
                 headImgUrl: '../../../../static/img/logo.png',               //头像
-                name: '新用户',                                              //昵称
+                name: username,                                              //昵称
                 phoneNum: null,                                              //手机号
-                money: null,                                                 //余额
-                redPaper: null,                                              //红包
-                coupon: null,                                                //优惠券
-                integral: null                                               //积分
+                money: 0.00,                                                 //余额
+                redPaper: 0,                                              //红包
+                coupon: 0,                                                //优惠券
+                integral: 0                                               //积分
             }
             let u_password = {
                 username,
@@ -243,12 +255,15 @@ const actions = {
             }
             commit('ADD_INFORMATION', information);
             commit('ADD_PASSWORD', u_password);
+            alert('注册成功')
+
         } else if (_state == 'login') {
             console.log("登录");
             
             //登录，根据用户名添加用户信息
             state.password.forEach(item => {
                 if(item.username == username){
+                    findUser = true
                     if(item.password == password){
                         let _data = {}
                         // 在所有用户中查找对应用户
@@ -257,21 +272,28 @@ const actions = {
                                 _data = item
                                 console.log('登录成功');
                                 commit('SET_INFORMATION',_data)
-                                
+                                return false;
                             }
                         })
-                        return;
                     }else{
                         alert('用户名密码不一致')
+                        return false;
                     }
-                }else{
-                    alert('用户名不存在')
                 }
             })
+            if(!findUser){
+                console.log('用户名不存在');
+            }
         }
 
 
 
+    },
+    logout({commit}){
+        commit('LOGOUT')
+    },
+    reset({commit}){
+        commit('RESET_LOGIN_REGISTER')
     },
     // ========================测试=========================
     test1({ commit, state, dispatch }, param1) {

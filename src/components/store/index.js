@@ -35,7 +35,13 @@ var state = {
             coupon:6,                                       //优惠券
             integral:260  
         }
-    ]   
+    ],
+    login:{
+        success:false,                              //登录成功
+    },
+    register:{
+        success:false
+    }   
 }
 
 // 定义getters

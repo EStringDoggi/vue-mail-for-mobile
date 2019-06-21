@@ -26,7 +26,7 @@
                     </div>
                     <!-- 登录按钮 -->
                     <button class="login" @click="submit">登录</button>
-                    <button class="regist">注册</button>
+                    <button class="regist" @click="register">注册</button>
                     <!-- 需要帮助？ -->
                     <div class="needHelp">
                         <span>需要帮助</span>
@@ -48,6 +48,9 @@ export default {
             
         }
     },
+    computed:{
+        ...mapState(['login'])
+    },
     methods:{
         ...mapActions(['loadInformation']),
         goback(){
@@ -61,8 +64,32 @@ export default {
                 password:this.password,
                 state:'login'
             }
-            this.loadInformation(data)
-        } 
+            // let func = new Promise((resolve,reject)=>{
+            //     let result = this.loadInformation(data)
+                
+            //     if(result){
+            //         console.log(result);
+                    
+            //         resolve()
+            //     }else{
+            //         reject()
+            //     }
+            // }).then(()=>{
+            //     alert('resolve')
+            //     // this.$router.push('individual')
+            // },()=>{
+            //     alert('reject')
+            // })
+            this.loadInformation(data).then((resolve)=>{
+                if(this.login.success){
+                    this.$router.push('individual')
+                }
+            })
+        }, 
+        register(){
+            this.$router.push('register')
+        }
+        
     }
 }
 </script>
