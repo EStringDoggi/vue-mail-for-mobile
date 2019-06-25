@@ -69,7 +69,7 @@
                 </span>
             </div>
             <!-- 提交按钮 -->
-            <div class="submit">提交订单</div>
+            <div class="submit" @click="order">提交订单</div>
         </div>
         <myFooter></myFooter>
     </div>
@@ -80,55 +80,7 @@ import {mapState,mapActions} from 'vuex'
 export default {
     data(){
         return{
-            // cart_data:[
-            //         {
-            //         seller:{
-            //             name:'xxxx旗舰店',
-            //         },
-            //         goods:[
-            //             {
-            //                 imgUrl:'../../../static/img/goodsList/item-show-1.jpg',
-            //                 goodsName:'商品名称名称名称名称',
-            //                 goodsPrice:4999,
-            //                 tag:['全网通','8G+256G'],
-            //                 selectNum:1,                    //购买数量
-            //                 isSelect:false,                  //是否选中
-            //             },
-            //             {
-            //                 imgUrl:'../../../static/img/goodsList/item-show-2.jpg',
-            //                 goodsName:'商品名称名称名称名称',
-            //                 goodsPrice:3999,
-            //                 tag:['全网通','8G+256G'],
-            //                 selectNum:2,                    //购买数量
-            //                 isSelect:false,                  //是否选中
-            //             },
-            //             {
-            //                 imgUrl:'../../../static/img/goodsList/item-show-3.jpg',
-            //                 goodsName:'商品名称名称名称名称',
-            //                 goodsPrice:5499,
-            //                 tag:['全网通','8G+256G'],
-            //                 selectNum:1,                    //购买数量
-            //                 isSelect:false,                  //是否选中
-            //             }
-            //         ]
-            //     },
-            //     {
-            //         seller:{
-            //             name:'xxxx旗舰店',
-            //         },
-            //         goods:[
-            //             {
-            //                 imgUrl:'../../../static/img/goodsList/item-show-4.jpg',
-            //                 goodsName:'商品名称名称名称名称',
-            //                 goodsPrice:4999,
-            //                 tag:['全网通','8G+256G'],
-            //                 selectNum:1,                    //购买数量
-            //                 isSelect:false,                  //是否选中
-            //             }
-            //         ]
-            //     }
-            // ],
-            // totalPrice:0,                                 //金额总计
+
         }
     },
     computed:{
@@ -140,7 +92,8 @@ export default {
         'test1',
         'selectChange',
         'selectChangeAll',
-        'btnShow'
+        'btnShow',
+        'addOrder'
         ]),
         // test
         test(e,index){
@@ -162,138 +115,16 @@ export default {
         _selectChangeAll(arr, e, all = false){
             let data = {
                 arr,
-                a,
+                e,
                 all
             }
             this.selectChangeAll(data)
         },
-        
-        // 数量改变
-        // handleChange(){
-        //     let temp = 0
-        //     // 遍历data
-        //     this.cart_data.forEach(item => {
-        //         item.goods.forEach(item => {
-        //             // 单价与数量积的相加
-        //             if(item.isSelect){
-        //                 temp += item.selectNum * item.goodsPrice
-        //             }
-        //         })
-        //     })
-        //     this.totalPrice = temp
-        // },
-        // 修改选择框
-        // selectChange(e,index,item){
-        //     console.log(e.currentTarget);
-            
-        //     // console.log(item.goods[index].isSelect);
-        //     let isAllInSelect = true                    //当前组的全选按钮是否显示
-        //     item.goods[index].isSelect = !item.goods[index].isSelect
-        //     item.goods.forEach(item=>{
-        //         if(!item.isSelect){
-        //             isAllInSelect = false
-        //         }
-        //     })
-        //     if(isAllInSelect){
-        //         // 当前组全选按钮显示
-        //         this.btnShow(1,e,'block')
-        //     }else{
-        //         // 当前组全选按钮隐藏
-        //         this.btnShow(1,e,'none')
-        //     }
-        //     // 计算总额
-        //     this.handleChange()
-        // },
-        // selectChangeAll(arr,e,all = false){
-        //     if(all){
-        //         console.log('全选');
-        //         let btnArr = document.querySelectorAll('.select-btn')
-        //         let btnTitle = document.querySelectorAll('.title-select')
-        //         let isSelect = false
-        //         btnArr.forEach(item => {
-        //             if(item.querySelector('i').style.display == 'none'){
-        //                 isSelect = true
-        //             }
-        //         })
-        //         if(isSelect){
-        //             // 全选按钮勾选
-        //             this.btnShow(3,null,'block')
-        //             btnTitle.forEach(item => {
-        //                 item.querySelector('i').style.display = 'block'
-        //             })
-        //             // 所有按钮显示
-        //             this.btnShow(2,null,true)
-        //         }else{
-        //             // 全选按钮取消勾选
-        //             this.btnShow(3,null,'none')
-        //             btnTitle.forEach(item => {
-        //                 item.querySelector('i').style.display = 'none'
-        //             })
-        //             // 所有按钮隐藏                    
-        //             this.btnShow(2,null,false)
-        //         }
-        //     }else{
-        //         let allInSelect = null             //是否全选
-        //         let arrNum = arr.goods.length
-        //         let icon = e.currentTarget.querySelector('i')
-        //         // console.log(e.currentTarget.parentNode);
-        //         console.log(icon);
-        //         let num = 0
-        //         arr.goods.forEach(item => {
-        //             // console.log(item.isSelect);
-        //             if(item.isSelect == true){
-        //                 num ++
-        //             }
-        //         });
-        //         if(num == arrNum){
-        //             allInSelect = false
-        //             // icon.style.visibility = 'hidden'
-        //             icon.style.display = 'none'
-        //         }else{
-        //             allInSelect = true
-        //             // icon.style.visibility = 'visible'
-        //             icon.style.display = 'block'
-    
-        //         }
-        //         arr.goods.forEach(item => {
-        //             item.isSelect = allInSelect
-        //         })
-        //     }
-        //     // 计算总额
-        //     this.handleChange()
-        // },
-        // 控制显示
-        // btnShow(i,e,display){
-        //     switch (i) {
-        //         // 改变当前按钮的title按钮的显隐
-        //         case 1:
-        //             let selectAllBtn = e.currentTarget.parentNode.parentNode.parentNode.parentNode.querySelector('.title i')
-        //             selectAllBtn.style.display = display
-        //             break;
-        //         // 改变所有按钮的显隐
-        //         case 2:
-        //             let itemArr = this.cart_data
-        //             itemArr.forEach(item => {
-        //                 item.goods.forEach(item => {
-        //                     item.isSelect = display
-        //                 })
-        //             })
-        //             break;
-        //         // 改变selectall按钮的显隐
-        //         case 3:
-        //             let btnAll = document.querySelector('.all-select i')
-        //             btnAll.style.display = display
-                    
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // },
-        // 全选事件：
-        // 全选时，遍历data判断是否有未选中项，有则全部遍历改为true，没有则全部改为false
-
-        // 单选事件
-        // 修改当前项的select
+        // 提交订单
+        order(){
+            this.addOrder()
+            this.$router.push('order')
+        }
         
     },
     components:{

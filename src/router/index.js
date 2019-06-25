@@ -10,6 +10,7 @@ import shoppingCart from '../components/pages/shoppingCart.vue'       //购物�
 import login from '../components/pages/login.vue'                     //登录
 import register from '../components/pages/register.vue'               //注册
 import QRCode from '../components/pages/QRCode.vue'                 //扫码
+import order from '../components/pages/order.vue'                 //扫码
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
@@ -59,6 +60,10 @@ export default new Router({
       path: '/m.shop/QRCode',
       name: 'QRCode',
       component: QRCode
+    },{
+      path: '/m.shop/order',
+      name: 'order',
+      component: order
     },{
       path:'*',
       redirect:'/m.shop/'

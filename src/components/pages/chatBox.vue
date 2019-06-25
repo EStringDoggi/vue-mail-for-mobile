@@ -1,7 +1,7 @@
 <template>
   <div class="chatBox">
     <div class="top">
-      <i class="el-icon-arrow-left"></i>
+      <i class="el-icon-arrow-left" @click="goback"></i>
       <h5>{{seller.name}}</h5>
     </div>
     <ul>
@@ -17,8 +17,13 @@
     </ul>
     <div class="text-box">
       <i class="el-icon-circle-plus-outline"></i>
-      <input type="text">
-      <el-button class="button" type="success" @click="send" v-model="text" size="small" round>发送</el-button>
+      <input type="text" v-model="text">
+      <el-button class="button" 
+      type="success" 
+      @click="send" 
+       
+      size="small" 
+      round>发送</el-button>
     </div>
   </div>
 </template>
@@ -35,7 +40,22 @@ export default {
     };
   },
   methods: {
-    send() {},
+    ...mapActions(['addChat']),
+    send() {
+      if(this.text){
+        let date = this.dateFormat(new Date())
+        //添加内容
+        let data = {
+          id:this.id,
+          text:this.text,
+          date
+        }
+        
+        this.addChat(data)
+        this.text = ''
+      }
+
+    },
     // 获取数据
     getData() {
       let data = [];
@@ -53,6 +73,9 @@ export default {
       this.seller.name = name;
       this.user.img = this.information.headImgUrl;
       this.user.name = this.information.name;
+    },
+    goback() {
+      this.$router.push("news");
     }
   },
   computed: {
@@ -73,7 +96,7 @@ export default {
     background-color: #fff;
     i {
       float: left;
-      margin-left: 1em;
+      padding-left: 1em;
       line-height: 2em;
     }
     h5 {
@@ -114,8 +137,8 @@ export default {
           position: absolute;
           top: 0.5rem;
           left: -1rem;
-          border:0.5rem solid transparent;
-          border-right-color:#fff;
+          border: 0.5rem solid transparent;
+          border-right-color: #fff;
         }
       }
       .text_user {
@@ -128,8 +151,8 @@ export default {
           position: absolute;
           top: 0.5rem;
           right: -1rem;
-          border:0.5rem solid transparent;
-          border-left-color:@theme-color;
+          border: 0.5rem solid transparent;
+          border-left-color: @theme-color;
         }
       }
     }
@@ -150,6 +173,10 @@ export default {
     }
     input {
       flex: 6;
+      border-radius: 5px;
+      &:focus{
+        outline: none;
+      }
     }
     .button {
       flex: 1;

@@ -8,10 +8,10 @@
 
 <script>
 import '../static/css/reset.css';
+import Vue from 'vue'
 import '../static/css/myClass.css'
 // import myHeader from '../src/components/header/header'
 import 'animate.css/animate.css'
-
 // import myFooter from '../src/components/footer/footer'
 export default {
   name: 'App',

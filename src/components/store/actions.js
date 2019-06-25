@@ -6,6 +6,26 @@ const actions = {
     }) {
         commit('INDEX_CHANGE')
     },
+    // 消息
+    // 添加消息记录
+    addChat({commit,state},data){
+        let id = data.id
+        let text = data.text
+        let chatArr = null
+        let _data = null
+        let date = data.date
+        state.news.data.forEach(item=>{
+            if(item.id == id){
+                chatArr = item
+            }
+        })
+        _data = {
+            text,
+            chatArr,
+            date
+        }
+        commit('ADD_CHAT',_data)
+    },
     // 加载购物车
     loadShoppingCart({
         commit
@@ -14,12 +34,12 @@ const actions = {
         const data = [
             {
                 seller: {
-                    name: 'xxxx旗舰店',
+                    name: 'aaa旗舰店',
                 },
                 goods: [
                     {
                         imgUrl: '../../../static/img/goodsList/item-show-1.jpg',
-                        goodsName: '商品名称名称名称名称',
+                        goodsName: '商品名称1',
                         goodsPrice: 4999,
                         tag: ['全网通', '8G+256G'],
                         selectNum: 1,                    //购买数量
@@ -27,7 +47,7 @@ const actions = {
                     },
                     {
                         imgUrl: '../../../static/img/goodsList/item-show-2.jpg',
-                        goodsName: '商品名称名称名称名称',
+                        goodsName: '商品名称2',
                         goodsPrice: 3999,
                         tag: ['全网通', '8G+256G'],
                         selectNum: 2,                    //购买数量
@@ -35,7 +55,7 @@ const actions = {
                     },
                     {
                         imgUrl: '../../../static/img/goodsList/item-show-3.jpg',
-                        goodsName: '商品名称名称名称名称',
+                        goodsName: '商品名称3',
                         goodsPrice: 5499,
                         tag: ['全网通', '8G+256G'],
                         selectNum: 1,                    //购买数量
@@ -45,12 +65,12 @@ const actions = {
             },
             {
                 seller: {
-                    name: 'xxxx旗舰店',
+                    name: 'bbb旗舰店',
                 },
                 goods: [
                     {
                         imgUrl: '../../../static/img/goodsList/item-show-4.jpg',
-                        goodsName: '商品名称名称名称名称',
+                        goodsName: '商品名称4',
                         goodsPrice: 4999,
                         tag: ['全网通', '8G+256G'],
                         selectNum: 1,                    //购买数量
@@ -75,6 +95,7 @@ const actions = {
         commit('SET_TOTAL_PRICE', temp)
 
     },
+    // 购物车商品选择
     selectChange({ commit, state, dispatch }, data) {
         let isAllInSelect = true                    //当前组的全选按钮是否显示
         let e = data.e
@@ -108,6 +129,7 @@ const actions = {
             })
         }
     },
+    // 购物车商品全选
     selectChangeAll({ commit, state, dispatch }, data) {
         let arr = data.arr
         let e = data.e
@@ -219,6 +241,31 @@ const actions = {
                 break;
         }
     },
+    // 添加订单信息
+    addOrder({commit, state}){
+        // cart_data 数组
+        let data = []
+        state.cart_data.forEach(item => {
+            let temp = {
+                seller:null,
+                goods:[]
+            }       //当前选中商品及其卖家
+            let seller = item.seller.name
+            item.goods.forEach(goods => {
+                if(goods.isSelect){
+                    temp.seller = seller
+                    temp.goods.push(goods)
+                }
+            })
+            if(temp.seller){
+                data.push(temp)
+            }
+        })
+        // console.log(data);
+        commit('ADD_ORDER',data)
+        
+    },
+    // 加载用户信息
     loadInformation({ commit, state }, data) {
         // let { username, password, state } = data
         let username = data.username
@@ -229,13 +276,13 @@ const actions = {
 
         if (_state == 'register') {
             //判断新用户重名
-            state.password.forEach(item=>{
-                if(item.username == username){
+            state.password.forEach(item => {
+                if (item.username == username) {
                     findUser = true
                     alert('用户名已存在')
                 }
             })
-            if(findUser){
+            if (findUser) {
                 return;
             }
             //注册，添加用户信息
@@ -259,29 +306,29 @@ const actions = {
 
         } else if (_state == 'login') {
             console.log("登录");
-            
+
             //登录，根据用户名添加用户信息
             state.password.forEach(item => {
-                if(item.username == username){
+                if (item.username == username) {
                     findUser = true
-                    if(item.password == password){
+                    if (item.password == password) {
                         let _data = {}
                         // 在所有用户中查找对应用户
                         state.allUser.forEach(item => {
-                            if(item.username = username){
+                            if (item.username = username) {
                                 _data = item
                                 console.log('登录成功');
-                                commit('SET_INFORMATION',_data)
+                                commit('SET_INFORMATION', _data)
                                 return false;
                             }
                         })
-                    }else{
+                    } else {
                         alert('用户名密码不一致')
                         return false;
                     }
                 }
             })
-            if(!findUser){
+            if (!findUser) {
                 console.log('用户名不存在');
             }
         }
@@ -289,10 +336,11 @@ const actions = {
 
 
     },
-    logout({commit}){
+    // 登出
+    logout({ commit }) {
         commit('LOGOUT')
     },
-    reset({commit}){
+    reset({ commit }) {
         commit('RESET_LOGIN_REGISTER')
     },
     // ========================测试=========================

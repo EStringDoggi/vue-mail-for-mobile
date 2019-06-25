@@ -42,12 +42,13 @@ var state = {
     register:{
         success:false
     },
+    // 聊天消息
     news:{
         data:[
             {
                 id:1,
                 title:'物流消息',
-                text:'内容内容内容内容内容内容',
+                text:'第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容第三条聊天内容',    //最后一条消息
                 date:'06-21 18:00',
                 img:'../../../../static/img/individual/2-16.png',
                 chat:[
@@ -70,34 +71,84 @@ var state = {
             },
             {
                 id:2,
-                title:'物流消息',
-                text:'内容内容内容内容内容内容',
+                title:'客服01号',
+                text:'你好',
                 date:'06-21 18:00',
-                img:'../../../../static/img/individual/2-16.png'
+                img:'../../../../static/img/logo.png',
+                chat:[
+                    {
+                        username:'colin',
+                        isSeller:false,
+                        text:'你好'
+                    },
+                    {
+                        username:'colin',
+                        isSeller:true,
+                        text:'你好'
+                    }
+                ]
             },
             {
                 id:3,
-                title:'物流消息',
-                text:'内容内容内容内容内容内容',
+                title:'客服02号',
+                text:'你好',
                 date:'06-21 18:00',
-                img:'../../../../static/img/individual/2-16.png'
+                img:'../../../../static/img/logo.png',
+                chat:[
+                    {
+                        username:'colin',
+                        isSeller:false,
+                        text:'你好'
+                    },
+                    {
+                        username:'colin',
+                        isSeller:true,
+                        text:'你好'
+                    }
+                ]
             },
             {
                 id:4,
-                title:'物流消息',
-                text:'内容内容内容内容内容内容',
+                title:'Steven',
+                text:'你好',
                 date:'06-21 18:00',
-                img:'../../../../static/img/individual/2-16.png'
+                img:'../../../../static/img/individual/2-09.png',
+                chat:[
+                    {
+                        username:'colin',
+                        isSeller:false,
+                        text:'你好'
+                    },
+                    {
+                        username:'colin',
+                        isSeller:true,
+                        text:'你好'
+                    }
+                ]
             },
             {
                 id:5,
-                title:'物流消息',
-                text:'内容内容内容内容内容内容',
+                title:'dark',
+                text:'你好',
                 date:'06-21 18:00',
-                img:'../../../../static/img/individual/2-16.png'
+                img:'../../../../static/img/individual/2-09.png',
+                chat:[
+                    {
+                        username:'colin',
+                        isSeller:false,
+                        text:'你好'
+                    },
+                    {
+                        username:'colin',
+                        isSeller:true,
+                        text:'你好'
+                    }
+                ]
             }
         ]
-    }   
+    },
+    // 订单
+    order:[]
 }
 
 // 定义getters
