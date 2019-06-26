@@ -455,7 +455,9 @@ export default {
           let data = {
             isData: true,
             data: {
-              seller: this.detail.shopName,
+              seller: {
+                  name:this.detail.shopName
+              },
               goods: [
                 {
                   imgUrl: this.cartSelectImg, //图片

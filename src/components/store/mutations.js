@@ -39,6 +39,16 @@ const mutations = {
     SET_TOTAL_PRICE(state, data) {
         state.totalPrice = data
     },
+    // 移除商品
+    DEL_GOODS(state, data){
+        let i = data.i
+        let j = data.j
+        state.cart_data[i].goods.splice(j,1)
+        if(state.cart_data[i].goods.length <= 0){
+            state.cart_data.splice(i,1)
+        }
+        console.log('del_goods');
+    },
     // 添加订单
     ADD_ORDER(state, data){
         state.order = data

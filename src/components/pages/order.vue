@@ -27,7 +27,7 @@
                 <li>
                     <div class="seller">
                         <i class="el-icon-s-shop"></i>
-                        {{item.seller}}
+                        {{item.seller.name}}
                     </div>
                 </li>
                 <!-- 商品 -->

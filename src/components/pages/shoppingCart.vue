@@ -1,9 +1,14 @@
 <!-- 购物车 -->
 <template>
     <div class="shoppingCartBox" >
+        <div class="top clearfix">
+            <i class="el-icon-arrow-left"></i>
+            <span v-show="!isAdit" @click="adit">编辑</span>
+            <span v-show="isAdit" @click="adit">取消编辑</span>
+        </div>
         <ul class="seller-list" v-if="information.username">
             <!-- 店铺及其下级 -->
-            <li class="seller" v-for="(item,index) in cart_data" :key="index">
+            <li class="seller" v-for="(item,index_i) in cart_data" :key="index_i">
                 <div class="title clearfix">
                     <div class="select-btn title-select" @click="_selectChangeAll(item,$event)">
                         <i class="el-icon-success" style="display:none"></i>
@@ -15,9 +20,9 @@
                 </div>
                 <div class="list clearfix">
                     <ul>
-                        <li class="clearfix" v-for="(goods,index) in item.goods" :key="index" >
+                        <li class="clearfix" v-for="(goods,index_j) in item.goods" :key="index_j" >
                             <div class="select-btn sub-select" 
-                            @click="_selectChange($event,index,item)"
+                            @click="_selectChange($event,index_j,item)"
                             >
                                <i class="el-icon-success" v-show="goods.isSelect"></i>
                             </div>
@@ -28,10 +33,15 @@
                                 <div class="main-h">
                                     <h5>{{goods.goodsName}}</h5>
                                     <div class="sub-title">
-                                        <span class="tag" v-for="(tag,index) in goods.tag" :key="index">
+                                        <span class="tag" v-for="(tag,index_j) in goods.tag" :key="index_j">
                                             {{tag}}
                                         </span>
                                     </div>
+                                    <!-- 删除按钮 -->
+                                    <i class="el-icon-delete" 
+                                    @click="goodsDelete(index_i,index_j)"
+                                    v-show="isAdit"
+                                    ></i>
                                 </div>
                                 <div class="main-f">
                                     <!-- 金额 -->
@@ -45,7 +55,9 @@
                                     :max="10" 
                                     label="数量"
                                     size="mini"
+                                    v-show="isAdit"
                                     ></el-input-number>
+                                    <span class="selectNum" v-show="!isAdit">x{{goods.selectNum}}</span>
                                 </div>
                             </div>
 
@@ -78,6 +90,25 @@
                 登录\注册
             </div>
         </div>
+        <transition 
+        enter-active-class="animated fadeIn" 
+        leave-active-class="animated fadeOut"
+        >
+        
+        <div class="confirmModal" v-show="confirmModal.modalShow" >
+        <transition  
+        enter-active-class="animated fadeInDown" 
+        leave-active-class="animated fadeOutDown">
+            <div class="modal" v-show="confirmModal.modalShow">
+                <div class="modal-t">是否确认移除该商品</div>
+                <div class="modal-b">
+                    <span class="cancel" @click="modalResult(0)">取消</span>
+                    <span class="confirm" @click="modalResult(1)">确认</span>
+                </div>
+            </div>
+        </transition>
+        </div>
+        </transition>
         <myFooter></myFooter>
     </div>
 </template>
@@ -87,7 +118,14 @@ import {mapState,mapActions} from 'vuex'
 export default {
     data(){
         return{
-            // disable:false,          //提交按钮是否可用
+            confirmModal:{
+                modalShow:false,            //模态框显隐
+            },
+            nowIndex:{
+                i:-1,
+                j:-1
+            },                              //删除项下标  
+            isAdit:false,                   //编辑              
         }
     },
     computed:{
@@ -100,7 +138,8 @@ export default {
         'selectChange',
         'selectChangeAll',
         'btnShow',
-        'addOrder'
+        'addOrder',
+        'del_goods'
         ]),
         // test
         test(e,index){
@@ -126,6 +165,45 @@ export default {
                 all
             }
             this.selectChangeAll(data)
+        },
+        // 编辑
+        adit(){
+            this.isAdit = !this.isAdit
+        },
+        // 删除按钮
+        goodsDelete(i,j){
+            // this.nowIndex = index
+            this.nowIndex.i = i
+            this.nowIndex.j = j
+            // 弹窗
+            this.alertModal()
+        },
+        // 弹窗
+        alertModal(){
+            this.confirmModal.modalShow = !this.confirmModal.modalShow
+        },
+        // 弹窗确认
+        modalResult(param){
+            if(param == 0){
+                // 取消
+                // this.confirmModal.isConfirm = false;
+                
+            }else{
+                // this.confirmModal.isConfirm = true;  
+                //删除
+                // let i = this.nowIndex.i
+                // let j = this.nowIndex.j
+                let data = {
+                    i:this.nowIndex.i,
+                    j:this.nowIndex.j
+                }
+                // console.log(this.cart_data[i].goods[j]);
+
+                this.del_goods(data)
+                
+            }
+            this.alertModal()
+            // this.confirmModal.modalShow = false
         },
         // 提交订单
         order(){
@@ -183,10 +261,29 @@ export default {
 
 .shoppingCartBox{
     background-color: rgb(248,248,248);
+    // 顶栏
+    .top{
+        background-color: @theme-color;
+        position: relative;
+        height: 2rem;
+            color: #fff;
+        i{
+            position: absolute;
+            top: 0.5rem;
+            left: 0;
+            padding-left: 1rem;
+        }
+        span{
+            position: absolute;
+            line-height: 2rem;
+            top: 0rem;
+            right: 0.5rem;
+            font-size: 0.8em;
+        }
+    }
     // 选购商品列表
     .seller-list{
-        padding: 1em 0 5em 0;
-        // padding-bottom: 5em;
+        margin-bottom: 5em;
         .seller{
             margin: 1em 0;
             // 店家名称
@@ -247,7 +344,7 @@ export default {
                         }
                     }
                     .goods-main{
-                        height: 5.5em;
+                        height: 5rem;
                         text-align: left;
                         display: flex;
                         flex-direction: column;
@@ -261,6 +358,12 @@ export default {
                                 .tag{
                                     margin: 0 0.5em;
                                 }
+                            }
+                            i{
+                                position: absolute;
+                                top: 0rem;
+                                right: 0rem;
+                                padding: 0.5rem;
                             }
                         }
                         .main-f{
@@ -284,6 +387,12 @@ export default {
                                 input,.el-input-number--mini .el-input__inner{
                                     padding: 0 20px;
                                 }
+                            }
+                            .selectNum{
+                                position: absolute;
+                                bottom: 15px;
+                                right: 1rem;
+
                             }
                         }
                     }
@@ -345,6 +454,49 @@ export default {
             color: #fff;
             background-color: #0099ff;
         }    
+    }
+    // 移除商品弹窗
+    .confirmModal{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.5);
+        z-index: 9999;
+        .modal{
+            position: absolute;
+            width: 12rem;
+            height: max-content;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin:auto;
+            // transform: translate(-50%,-50%); 
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            .modal-t{
+                padding: 1rem;
+                border-bottom: 1px solid #eee;
+            }
+            .modal-b{
+                // padding: 0.5rem;
+                line-height: 2rem;
+                display: flex;
+                
+                span{
+                    flex:1;
+                }
+                span:first-child{
+                    border-right: 1px solid #eee;
+                }
+                span:active{
+                    background-color: #eee;
+                }
+            }
+        }
     }
 }
 </style>

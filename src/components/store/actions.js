@@ -28,7 +28,7 @@ const actions = {
     },
     // 商品加入购物车
     addShoppingCart({ commit }, data) {
-        commit('ADD_SHOPPING_CART', data)
+        commit('ADD_SHOPPING_CART', data.data)
     },
     // 加载购物车
     loadShoppingCart({
@@ -258,6 +258,10 @@ const actions = {
                 break;
         }
     },
+    del_goods({commit,state},data){
+        // let {i,j} = data
+        commit('DEL_GOODS',data)
+    },
     // 添加订单信息
     addOrder({ commit, state }, data = null) {
         let _data = []
@@ -268,19 +272,19 @@ const actions = {
             // cart_data 数组
             state.cart_data.forEach(item => {
                 let temp = {
-                    seller: null,
+                    seller: {name:null},
                     goods: []
                 }       //当前选中商品及其卖家
                 let seller = item.seller.name
                 item.goods.forEach(goods => {
                     // 如果有商品被选中，则seller不为空
                     if (goods.isSelect) {
-                        temp.seller = seller
+                        temp.seller.name = seller
                         temp.goods.push(goods)
                     }
                 })
                 // 有seller说明有商品被选中
-                if (temp.seller) {
+                if (temp.seller.name) {
                     _data.push(temp)
                 }
             })
