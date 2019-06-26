@@ -10,7 +10,8 @@ import shoppingCart from '../components/pages/shoppingCart.vue'       //购物�
 import login from '../components/pages/login.vue'                     //登录
 import register from '../components/pages/register.vue'               //注册
 import QRCode from '../components/pages/QRCode.vue'                 //扫码
-import order from '../components/pages/order.vue'                 //扫码
+import order from '../components/pages/order.vue'                 //订单
+import pay from '../components/pages/pay.vue'                 //付款成功
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
@@ -64,6 +65,10 @@ export default new Router({
       path: '/m.shop/order',
       name: 'order',
       component: order
+    },{
+      path: '/m.shop/pay',
+      name: 'pay',
+      component: pay
     },{
       path:'*',
       redirect:'/m.shop/'

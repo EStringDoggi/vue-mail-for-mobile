@@ -8,7 +8,7 @@ Vue.use(Vuex)
 // 定义属性
 var state = {
     footerIndex: 0,          //底栏当前下标
-    cart_data: [],           //购物车数据
+    cart_data: null,           //购物车数据
     totalPrice: 0,           //总金额
     //当前用户数据
     information:{
@@ -19,7 +19,8 @@ var state = {
         money:null,                                 //余额
         redPaper:null,                              //红包
         coupon:null,                                //优惠券
-        integral:null                               //积分
+        integral:null,                              //积分
+        address:[],                                 //收货地址
     },
     password:[
         {username:'colin',password:123456}
@@ -33,7 +34,11 @@ var state = {
             money:666.00,                                   //余额
             redPaper:3,                                     //红包
             coupon:6,                                       //优惠券
-            integral:260  
+            integral:260,
+            address:[                                       //收货地址
+                '广东省深圳市龙岗区xxx镇xxx小区xx栋xx单元1101',
+                '广东省深圳市福田区xxx镇xxx小区xx栋xx单元309'
+            ]  
         }
     ],
     login:{

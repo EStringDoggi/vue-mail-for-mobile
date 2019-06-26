@@ -22,6 +22,14 @@ const mutations = {
     //     let text = data.text
 
     // },
+    // 添加购物车
+    ADD_SHOPPING_CART(state, data){
+        state.cart_data.push(data)
+        console.log('添加到购物车');
+        console.log(state.cart_data);
+        
+        
+    },
     // 加载购物车
     SET_SHOPPING_CART(state, data) {
         state.cart_data = data
@@ -65,7 +73,8 @@ const mutations = {
             money:null,                                 //余额
             redPaper:null,                              //红包
             coupon:null,                                //优惠券
-            integral:null                               //积分
+            integral:null,                              //积分
+            address:[]
         }
     }
 }

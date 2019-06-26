@@ -3,19 +3,19 @@ const actions = {
     IndexChange({
         commit,
         state
-    }) {
-        commit('INDEX_CHANGE')
+    }, index) {
+        commit('INDEX_CHANGE', index)
     },
     // 消息
     // 添加消息记录
-    addChat({commit,state},data){
+    addChat({ commit, state }, data) {
         let id = data.id
         let text = data.text
         let chatArr = null
         let _data = null
         let date = data.date
-        state.news.data.forEach(item=>{
-            if(item.id == id){
+        state.news.data.forEach(item => {
+            if (item.id == id) {
                 chatArr = item
             }
         })
@@ -24,62 +24,72 @@ const actions = {
             chatArr,
             date
         }
-        commit('ADD_CHAT',_data)
+        commit('ADD_CHAT', _data)
+    },
+    // 商品加入购物车
+    addShoppingCart({ commit }, data) {
+        commit('ADD_SHOPPING_CART', data)
     },
     // 加载购物车
     loadShoppingCart({
-        commit
+        commit,
+        state
     }) {
-        // 仿ajax请求，拿到数据填充到仓库
-        const data = [
-            {
-                seller: {
-                    name: 'aaa旗舰店',
-                },
-                goods: [
-                    {
-                        imgUrl: '../../../static/img/goodsList/item-show-1.jpg',
-                        goodsName: '商品名称1',
-                        goodsPrice: 4999,
-                        tag: ['全网通', '8G+256G'],
-                        selectNum: 1,                    //购买数量
-                        isSelect: false,                  //是否选中
+        if (state.cart_data) {
+            return;
+        } else {
+
+            // 仿ajax请求，拿到数据填充到仓库
+            const data = [
+                {
+                    seller: {
+                        name: 'aaa旗舰店',
                     },
-                    {
-                        imgUrl: '../../../static/img/goodsList/item-show-2.jpg',
-                        goodsName: '商品名称2',
-                        goodsPrice: 3999,
-                        tag: ['全网通', '8G+256G'],
-                        selectNum: 2,                    //购买数量
-                        isSelect: false,                  //是否选中
-                    },
-                    {
-                        imgUrl: '../../../static/img/goodsList/item-show-3.jpg',
-                        goodsName: '商品名称3',
-                        goodsPrice: 5499,
-                        tag: ['全网通', '8G+256G'],
-                        selectNum: 1,                    //购买数量
-                        isSelect: false,                  //是否选中
-                    }
-                ]
-            },
-            {
-                seller: {
-                    name: 'bbb旗舰店',
+                    goods: [
+                        {
+                            imgUrl: '../../../static/img/goodsList/item-show-1.jpg',
+                            goodsName: '商品名称1',
+                            goodsPrice: 4999,
+                            tag: ['全网通', '8G+256G'],
+                            selectNum: 1,                    //购买数量
+                            isSelect: false,                  //是否选中
+                        },
+                        {
+                            imgUrl: '../../../static/img/goodsList/item-show-2.jpg',
+                            goodsName: '商品名称2',
+                            goodsPrice: 3999,
+                            tag: ['全网通', '8G+256G'],
+                            selectNum: 2,                    //购买数量
+                            isSelect: false,                  //是否选中
+                        },
+                        {
+                            imgUrl: '../../../static/img/goodsList/item-show-3.jpg',
+                            goodsName: '商品名称3',
+                            goodsPrice: 5499,
+                            tag: ['全网通', '8G+256G'],
+                            selectNum: 1,                    //购买数量
+                            isSelect: false,                  //是否选中
+                        }
+                    ]
                 },
-                goods: [
-                    {
-                        imgUrl: '../../../static/img/goodsList/item-show-4.jpg',
-                        goodsName: '商品名称4',
-                        goodsPrice: 4999,
-                        tag: ['全网通', '8G+256G'],
-                        selectNum: 1,                    //购买数量
-                        isSelect: false,                  //是否选中
-                    }
-                ]
-            }
-        ]
-        commit('SET_SHOPPING_CART', data)
+                {
+                    seller: {
+                        name: 'bbb旗舰店',
+                    },
+                    goods: [
+                        {
+                            imgUrl: '../../../static/img/goodsList/item-show-4.jpg',
+                            goodsName: '商品名称4',
+                            goodsPrice: 4999,
+                            tag: ['全网通', '8G+256G'],
+                            selectNum: 1,                    //购买数量
+                            isSelect: false,                  //是否选中
+                        }
+                    ]
+                }
+            ]
+            commit('SET_SHOPPING_CART', data)
+        }
     },
     handleChange({ commit, state }) {
         let temp = 0
@@ -114,20 +124,17 @@ const actions = {
                 e,
                 display: 'block'
             }
-            return dispatch('btnShow', param).then(() => {
-                return dispatch('handleChange')
-            })
+            dispatch('btnShow', param)
         } else {
             let param = {
                 type: 1,
                 e,
                 display: 'none'
             }
-            return dispatch('btnShow', param).then(() => {
-                // 计算总额
-                return dispatch('handleChange')
-            })
+            dispatch('btnShow', param)
         }
+        // 计算总额
+        dispatch('handleChange')
     },
     // 购物车商品全选
     selectChangeAll({ commit, state, dispatch }, data) {
@@ -163,7 +170,10 @@ const actions = {
                         e: null,
                         display: true
                     }
-                    return dispatch('btnShow', param)
+
+                    // return dispatch('btnShow', param)
+                    dispatch('btnShow', param)
+                    dispatch('handleChange')
                 })
             } else {
                 btnTitle.forEach(item => {
@@ -182,20 +192,27 @@ const actions = {
                         e: null,
                         display: false
                     }
-                    return dispatch('btnShow', param)
+
+                    // return dispatch('btnShow', param)
+                    dispatch('btnShow', param)
+                    dispatch('handleChange')
                 })
 
             }
+            // arr.goods.forEach(item => {
+            //     item.isSelect = allInSelect
+            // })
         } else {
             let allInSelect = null             //是否全选
             let arrNum = arr.goods.length
             let icon = e.currentTarget.querySelector('i')
-            let num = 0
+            let num = 0                        //商品计数
             arr.goods.forEach(item => {
                 if (item.isSelect == true) {
                     num++
                 }
             });
+            // 根据计数结果与总数对比判断是否全选
             if (num == arrNum) {
                 allInSelect = false
                 icon.style.display = 'none'
@@ -242,28 +259,35 @@ const actions = {
         }
     },
     // 添加订单信息
-    addOrder({commit, state}){
-        // cart_data 数组
-        let data = []
-        state.cart_data.forEach(item => {
-            let temp = {
-                seller:null,
-                goods:[]
-            }       //当前选中商品及其卖家
-            let seller = item.seller.name
-            item.goods.forEach(goods => {
-                if(goods.isSelect){
-                    temp.seller = seller
-                    temp.goods.push(goods)
+    addOrder({ commit, state }, data = null) {
+        let _data = []
+        // console.log(data);
+        if (data) {
+            _data.push(data.data)
+        } else {
+            // cart_data 数组
+            state.cart_data.forEach(item => {
+                let temp = {
+                    seller: null,
+                    goods: []
+                }       //当前选中商品及其卖家
+                let seller = item.seller.name
+                item.goods.forEach(goods => {
+                    // 如果有商品被选中，则seller不为空
+                    if (goods.isSelect) {
+                        temp.seller = seller
+                        temp.goods.push(goods)
+                    }
+                })
+                // 有seller说明有商品被选中
+                if (temp.seller) {
+                    _data.push(temp)
                 }
             })
-            if(temp.seller){
-                data.push(temp)
-            }
-        })
-        // console.log(data);
-        commit('ADD_ORDER',data)
-        
+            // console.log(data);
+        }
+        commit('ADD_ORDER', _data)
+
     },
     // 加载用户信息
     loadInformation({ commit, state }, data) {
@@ -294,7 +318,8 @@ const actions = {
                 money: 0.00,                                                 //余额
                 redPaper: 0,                                              //红包
                 coupon: 0,                                                //优惠券
-                integral: 0                                               //积分
+                integral: 0,                                               //积分
+                address: []
             }
             let u_password = {
                 username,

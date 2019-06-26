@@ -1,7 +1,7 @@
 <!-- 购物车 -->
 <template>
-    <div class="shoppingCartBox">
-        <ul class="seller-list">
+    <div class="shoppingCartBox" >
+        <ul class="seller-list" v-if="information.username">
             <!-- 店铺及其下级 -->
             <li class="seller" v-for="(item,index) in cart_data" :key="index">
                 <div class="title clearfix">
@@ -55,7 +55,7 @@
             </li>
         </ul>
         <!-- 提交订单 -->
-        <div class="order">
+        <div class="order" v-if="information.username">
             <div class="select" @click="_selectChangeAll(null,null,true)">
                 <div class="select-btn all-select">
                     <i class="el-icon-success" style="display:none"></i>
@@ -69,7 +69,14 @@
                 </span>
             </div>
             <!-- 提交按钮 -->
-            <div class="submit" @click="order">提交订单</div>
+            <div class="submit" :class="[totalPrice > 0?'':'disable']" @click="order" >提交订单</div>
+        </div>
+        <!-- 未登录时显示 -->
+        <div class="noUser" v-if="!information.username">
+            <span>您未登录，请先登录</span>
+            <div class="login" @click="login">
+                登录\注册
+            </div>
         </div>
         <myFooter></myFooter>
     </div>
@@ -80,11 +87,11 @@ import {mapState,mapActions} from 'vuex'
 export default {
     data(){
         return{
-
+            // disable:false,          //提交按钮是否可用
         }
     },
     computed:{
-        ...mapState(['cart_data','totalPrice'])
+        ...mapState(['cart_data','totalPrice','information'])
     },
     methods: {
         ...mapActions(['loadShoppingCart',
@@ -122,16 +129,27 @@ export default {
         },
         // 提交订单
         order(){
+            if(this.totalPrice <= 0){
+                return;
+            }
             this.addOrder()
             this.$router.push('order')
+            
+        },
+        // 登录按钮
+        login(){
+            this.$router.push('login')
         }
+        
+    },
+    watch: {
         
     },
     components:{
         myFooter
     },
     created(){
-        this.loadShoppingCart()
+        this.loadShoppingCart()        
     },
     mounted(){
         this.test('666','888')
@@ -161,12 +179,14 @@ export default {
         left: -1px;
     }
 }
+
+
 .shoppingCartBox{
     background-color: rgb(248,248,248);
-    padding-bottom: 5em;
     // 选购商品列表
     .seller-list{
-        padding: 1em 0;
+        padding: 1em 0 5em 0;
+        // padding-bottom: 5em;
         .seller{
             margin: 1em 0;
             // 店家名称
@@ -282,6 +302,7 @@ export default {
         background-color: #fff;
         line-height: 2.5em;
         padding: 0.25em 0;
+        z-index: 999;
         .select{
             flex: 1;
             span{
@@ -302,6 +323,28 @@ export default {
             border-radius: 20px;
             margin:0em 1em;
         }
+        .disable{
+            background-color: #a0cfff;
+        }
+    }
+    .noUser{
+        position: fixed;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        transform: translateY(-50%);
+        .login{
+            // position: absolute;
+            // top: 4em;
+            // left: 2em;
+            width: 60%;
+            margin: 0 auto;
+            border: 2px solid #fff;
+            padding: 0.5em 1em;
+            border-radius: 15px;
+            color: #fff;
+            background-color: #0099ff;
+        }    
     }
 }
 </style>

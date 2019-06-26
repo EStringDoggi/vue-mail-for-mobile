@@ -4,13 +4,16 @@
       <!-- 首页 -->
       <li v-for="(item,index) in lisArr" 
       :key="index" 
-      :class="{active:index == footerIndex}"
-      @click="IndexChange(index)"
+      :class="{active:index == footerIndex && index != 2}"
+      @click="Index_Change(index)"
       >
-        <router-link :to="item.routerLink">
+        <router-link :to="item.routerLink" v-if="item.id != 2">
           <i :class="item.iclassName"></i>
           <span>{{item.text}}</span>
         </router-link>
+        <div class="icon" v-if="item.id == 2">
+          <img src="../../../static/img/logo.png" alt="" srcset="">
+        </div>
       </li>
       
     </ul>
@@ -35,9 +38,10 @@ export default {
           text:'消息',
           id:1
         },{
-          routerLink:'/m.shop/QRCode',
-          iclassName:'el-icon-full-screen',
-          text:'扫码',
+          routerLink:'',
+          // iclassName:'el-icon-full-screen',
+          iclassName:'',
+          text:'',
           id:2
         },{
           routerLink:'/m.shop/shoppingCart',
@@ -60,8 +64,10 @@ export default {
   }
   ,
   methods:{
-    IndexChange(index){
-      this.$store.commit('INDEX_CHANGE',index)
+    ...mapActions(['IndexChange']),
+    Index_Change(index){
+      // this.$store.commit('INDEX_CHANGE',index)
+      this.IndexChange(index)
       console.log("change");
       
     }
@@ -85,6 +91,7 @@ export default {
     li{
       flex: 1;
       display: inline-block;
+      position: relative;
       // line-height: 2em;
       padding: 0.5em 0;
       i{
@@ -94,6 +101,21 @@ export default {
       span{
         font-size: 0.6em;
       }
+    }
+  }
+  .icon{
+    width: 4em;
+    height: 4em;
+    overflow: hidden;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+
+    img{
+      width: 100%;
+      height: auto;
     }
   }
 
