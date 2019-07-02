@@ -1,5 +1,6 @@
 <template>
   <div class="chatBox">
+    <!-- <div class="bg"></div> -->
     <div class="top">
       <i class="el-icon-arrow-left" @click="goback"></i>
       <h5>{{seller.name}}</h5>
@@ -89,11 +90,11 @@ export default {
 <style lang='less' scoped>
 @import url("../../../static/css/less.less");
 .chatBox {
-  height: 100vh;
-  background-color: rgb(243, 243, 243);
+
   .top {
     line-height: 2rem;
-    background-color: #fff;
+    background-color: @theme-color;
+    color:#fff;
     i {
       float: left;
       padding-left: 1em;
@@ -129,7 +130,7 @@ export default {
       }
       .text_seller {
         margin-left: 0.5rem;
-        background-color: #fff;
+        background-color: rgb(245, 245, 245);
         float: left;
         text-align: left;
         &::before {
@@ -138,7 +139,7 @@ export default {
           top: 0.5rem;
           left: -1rem;
           border: 0.5rem solid transparent;
-          border-right-color: #fff;
+          border-right-color: rgb(245, 245, 245);
         }
       }
       .text_user {

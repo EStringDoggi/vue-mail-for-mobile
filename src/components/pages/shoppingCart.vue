@@ -1,7 +1,7 @@
 <!-- 购物车 -->
 <template>
     <div class="shoppingCartBox" >
-        <div class="top clearfix">
+        <div class="top clearfix" v-show="information.username">
             <i class="el-icon-arrow-left"></i>
             <span v-show="!isAdit" @click="adit">编辑</span>
             <span v-show="isAdit" @click="adit">取消编辑</span>
@@ -283,7 +283,7 @@ export default {
     }
     // 选购商品列表
     .seller-list{
-        margin-bottom: 5em;
+        margin-bottom: 7em;
         .seller{
             margin: 1em 0;
             // 店家名称

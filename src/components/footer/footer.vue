@@ -1,6 +1,6 @@
 <template>
   <div class="footerBox">
-    <ul>
+    <ul class="clearfix">
       <!-- 首页 -->
       <li v-for="(item,index) in lisArr" 
       :key="index" 
@@ -85,7 +85,12 @@ export default {
   position: fixed;
   background-color: #fff;
   z-index: 999;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   ul{
+    // position: absolute;
+    // top: 0;
+    // left: 0;
     display: flex;
     justify-content: space-around;
     li{

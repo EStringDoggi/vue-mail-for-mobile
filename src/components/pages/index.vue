@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="index" onresize="loadImgOffset">
     <myHeader></myHeader>    
     <!-- nav -->
     <div class="nav">
@@ -11,7 +11,7 @@
           @touchend.stop.prevent="touchend"
           :style="navX"
           :class="{'mytransition':useTransition}"
-          class="imageList"
+          class="imageList clearfix"
         >
           <li v-for="(item,index) in navImgArrUrl" :key="index">
             <img :src="item.imgUrl">
@@ -365,20 +365,30 @@ export default {
       this.autoScrollInterval = setInterval(() => {
         this.animate_translateX(true);
       }, 1000);
-    }
+    },
+      loadImgOffset(){
+      // 初始化，获取图片宽度，nav移至第一张图
+      this.navImgOffset = document.querySelector(".navBox img").offsetWidth;
+      this.translateX = -document.querySelector(".navBox img").offsetWidth;
+      this.navX["transform"] = "translateX(" + this.translateX + "px)";
+      console.log('loadImgOffset');
+      
+      }
   },
   mounted() {
-    //初始化定时器
     // 初始化，获取图片宽度，nav移至第一张图
-    this.navImgOffset = document.querySelector(".navBox img").offsetWidth;
-    this.translateX = -document.querySelector(".navBox img").offsetWidth;
-    this.navX["transform"] = "translateX(" + this.translateX + "px)";
+    this.loadImgOffset()
     //nav动画
     this.newAutoScroll();
     //开启动画
     this.useTransition = true;
+    // 窗口改变时，重新获取图片宽度
+    window.onresize = () =>{
+        this.loadImgOffset()
+    }
   },
   destroyed() {
+    window.onresize = null
     if (this.autoScrollInterval) {
         // console.log("清除定时器");
         // 清除定时器

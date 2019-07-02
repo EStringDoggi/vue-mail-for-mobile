@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import '../static/css/reset.css';
+import '../static/css/reset_shop.css';
 import Vue from 'vue'
 import '../static/css/myClass.css'
 // import myHeader from '../src/components/header/header'
