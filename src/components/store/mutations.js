@@ -86,6 +86,7 @@ const mutations = {
             integral:null,                              //积分
             address:[]
         }
+        state.login.success = false
     }
 }
 

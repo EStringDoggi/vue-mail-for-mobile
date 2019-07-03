@@ -113,7 +113,7 @@
             <p class="item-detail">消费者在满足7天无理由退换货申请条件的前提下,可以提出“7天无理由退换货”的申请</p>
           </li>
           <li>
-            <div class="botton" @click="toggleClick('serviceModalDisplay')">确认</div>
+            <div class="button" @click="toggleClick('serviceModalDisplay')">确认</div>
           </li>
         </ul>
       </div>
@@ -133,7 +133,7 @@
             <p class="item-detail">{{item.detail}}</p>
           </li>
         </ul>
-        <div class="botton" @click="toggleClick('paramModalDisplay')">确认</div>
+        <div class="button" @click="toggleClick('paramModalDisplay')">确认</div>
       </div>
     </transition>
     <transition
@@ -187,7 +187,7 @@
             </li>
           </ul>
         </div>
-        <div class="botton" @click="toggleClick('cartModalSubmit')">确认</div>
+        <div class="button" @click="toggleClick('cartModalSubmit')">确认</div>
       </div>
     </transition>
     <!-- 卖家窗口 -->
@@ -367,7 +367,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["addShoppingCart", "addOrder"]),
+    ...mapActions(["addShoppingCart", "addOrder","information"]),
     touchstart(e) {
       // 停用动画
       this.useTransition = false;
@@ -471,20 +471,30 @@ export default {
             }
           };
           if (this.isAddCart) {
-            // 添加到购物车
-            //显示模态框
-            this.modalAddCart = true;
-            setTimeout(() => {
-              this.modalAddCart = false;
-            }, 1000);
-            //添加到购物车
-            this.addShoppingCart(data);
+            // 判断登录状态
+            if(this.information.username){
+              // 添加到购物车
+              //显示模态框
+              this.modalAddCart = true;
+              setTimeout(() => {
+                this.modalAddCart = false;
+              }, 1000);
+              //添加到购物车
+              this.addShoppingCart(data);
+            }else{
+              // 登录              
+              this.$router.push("login");
+            }
           } else {
-            //跳转到下单页面
-            // console.log(data);
-            
-            this.addOrder(data);
-            this.$router.push("order");
+            //跳转到下单页面      
+            // 判断是否登录
+            if(this.information.username){
+              this.addOrder(data);
+              this.$router.push("order");
+            }else{
+              // 登录
+              this.$router.push("login");
+            }
           }
           this.cartModalDisplay = !this.cartModalDisplay;
           // 背景层显隐
@@ -864,7 +874,7 @@ export default {
       line-height: 1.5em;
       font-size: 0.8em;
     }
-    .botton {
+    .button {
       position: fixed;
       left: 0;
       bottom: 0;

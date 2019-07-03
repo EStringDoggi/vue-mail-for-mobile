@@ -84,12 +84,7 @@
             <div class="submit" :class="[totalPrice > 0?'':'disable']" @click="order" >提交订单</div>
         </div>
         <!-- 未登录时显示 -->
-        <div class="noUser" v-if="!information.username">
-            <span>您未登录，请先登录</span>
-            <div class="login" @click="login">
-                登录\注册
-            </div>
-        </div>
+        <unloginModal v-if="!information.username"></unloginModal>
         <transition 
         enter-active-class="animated fadeIn" 
         leave-active-class="animated fadeOut"
@@ -115,6 +110,7 @@
 <script>
 import myFooter from '../footer/footer'
 import {mapState,mapActions} from 'vuex'
+import unloginModal from './unloginModal'
 export default {
     data(){
         return{
@@ -214,17 +210,18 @@ export default {
             this.$router.push('order')
             
         },
-        // 登录按钮
-        login(){
-            this.$router.push('login')
-        }
+        // // 登录按钮
+        // login(){
+        //     this.$router.push('login')
+        // }
         
     },
     watch: {
         
     },
     components:{
-        myFooter
+        myFooter,
+        unloginModal
     },
     created(){
         this.loadShoppingCart()        
@@ -412,6 +409,8 @@ export default {
         line-height: 2.5em;
         padding: 0.25em 0;
         z-index: 999;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
         .select{
             flex: 1;
             span{
@@ -436,25 +435,25 @@ export default {
             background-color: #a0cfff;
         }
     }
-    .noUser{
-        position: fixed;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        transform: translateY(-50%);
-        .login{
-            // position: absolute;
-            // top: 4em;
-            // left: 2em;
-            width: 60%;
-            margin: 0 auto;
-            border: 2px solid #fff;
-            padding: 0.5em 1em;
-            border-radius: 15px;
-            color: #fff;
-            background-color: #0099ff;
-        }    
-    }
+    // .noUser{
+    //     position: fixed;
+    //     top: 50%;
+    //     left: 0;
+    //     width: 100%;
+    //     transform: translateY(-50%);
+    //     .login{
+    //         // position: absolute;
+    //         // top: 4em;
+    //         // left: 2em;
+    //         width: 60%;
+    //         margin: 0 auto;
+    //         border: 2px solid #fff;
+    //         padding: 0.5em 1em;
+    //         border-radius: 15px;
+    //         color: #fff;
+    //         background-color: #0099ff;
+    //     }    
+    // }
     // 移除商品弹窗
     .confirmModal{
         position: fixed;

@@ -1,7 +1,9 @@
 <!-- 消息列表 -->
 <template>
 <div class="newsBox">
-    <ul>
+    <!-- 未登录时显示 -->
+        <unloginModal v-if="!information.username"></unloginModal>
+    <ul v-if="information.username">
         <li class="clearfix" 
         v-for="(item,index) in news.data" 
         :key="index"
@@ -25,6 +27,7 @@
 <script>
 import myFooter from '../footer/footer'
 import {mapState,mapActions} from 'vuex'
+import unloginModal from './unloginModal'
 export default {
     data() {
         return {
@@ -32,10 +35,11 @@ export default {
         }
     },
     components:{
-        myFooter
+        myFooter,
+        unloginModal
     },
     computed: {
-        ...mapState(['news'])
+        ...mapState(['news','information'])
     },
     methods: {
         gotoChat(id){

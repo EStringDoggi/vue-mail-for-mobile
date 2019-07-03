@@ -25,7 +25,8 @@
                         </div>
                     </div>
                     <!-- 登录按钮 -->
-                    <button class="login" @click="submit">登录</button>
+                    <button class="login normal" @click="submit()">登录</button>
+                    <button class="login quick" @click="submit(true)">一键登录</button>
                     <button class="regist" @click="register">注册</button>
                     <!-- 需要帮助？ -->
                     <div class="needHelp">
@@ -52,34 +53,26 @@ export default {
         ...mapState(['login'])
     },
     methods:{
-        ...mapActions(['loadInformation']),
+        ...mapActions(['loadInformation','IndexChange']),
         goback(){
             this.$router.push('individual')
+            this.IndexChange(4)
         },
-        submit(){
-            console.log("login");
-            
-            let data = {
-                username:this.username,
-                password:this.password,
-                state:'login'
+        submit(param = false){
+            let data = {}
+            if(param){
+                data = {
+                    username:'colin',
+                    password:123456,
+                    state:'login'
+                }
+            }else{
+                data = {
+                    username:this.username,
+                    password:this.password,
+                    state:'login'
+                }
             }
-            // let func = new Promise((resolve,reject)=>{
-            //     let result = this.loadInformation(data)
-                
-            //     if(result){
-            //         console.log(result);
-                    
-            //         resolve()
-            //     }else{
-            //         reject()
-            //     }
-            // }).then(()=>{
-            //     alert('resolve')
-            //     // this.$router.push('individual')
-            // },()=>{
-            //     alert('reject')
-            // })
             this.loadInformation(data).then((resolve)=>{
                 if(this.login.success){
                     this.$router.push('individual')
@@ -160,8 +153,16 @@ export default {
             margin-bottom: 1em;
         }
         .login{
-            background-color: @tag-color2;
             color:#fff;
+            &:focus{
+                outline: none;
+            }
+        }
+        .login.normal{
+            background-color: @tag-color2;
+        }
+        .login.quick{
+            background-color: @tag-color4;
         }
         .regist{
             border: 1px solid rgb(10, 67, 190);
