@@ -35,7 +35,7 @@ const actions = {
         commit,
         state
     }) {
-        if (state.cart_data) {
+        if (state.cart_data.length > 0) {
             return;
         } else {
 

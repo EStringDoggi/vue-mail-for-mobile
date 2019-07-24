@@ -367,7 +367,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["addShoppingCart", "addOrder","information"]),
+    ...mapActions(["addShoppingCart", "addOrder"]),
     touchstart(e) {
       // 停用动画
       this.useTransition = false;
@@ -420,9 +420,9 @@ export default {
     goback() {
       this.$router.push("/m.shop/goodsList");
     },
-    // 收藏
-    toggleClick(e) {
-      switch (e) {
+    // 各种点击事件
+    toggleClick(func) {
+      switch (func) {
         case "isFavor":
           this.isFavor = !this.isFavor;
           if (this.isFavor) {
@@ -481,6 +481,7 @@ export default {
               }, 1000);
               //添加到购物车
               this.addShoppingCart(data);
+              
             }else{
               // 登录              
               this.$router.push("login");
@@ -503,6 +504,7 @@ export default {
           break;
         // 立即购买
         case "cartModalDisplay":
+          this.isAddCart = false;
           this.cartModalDisplay = !this.cartModalDisplay;
           // 背景层显隐
           this.bgModal = !this.bgModal;
@@ -561,6 +563,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["information"])
     // cartSelectParam(){
     //     let data = ['']
     //     // 参数的种类

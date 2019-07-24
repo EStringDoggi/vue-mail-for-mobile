@@ -224,7 +224,12 @@ export default {
         unloginModal
     },
     created(){
-        this.loadShoppingCart()        
+        // if(this.cart_data.length <= 0){
+
+        //     }
+            this.loadShoppingCart()        
+        console.log(this.cart_data.length);
+        
     },
     mounted(){
         this.test('666','888')

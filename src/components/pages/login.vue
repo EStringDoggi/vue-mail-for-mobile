@@ -53,7 +53,7 @@ export default {
         ...mapState(['login'])
     },
     methods:{
-        ...mapActions(['loadInformation','IndexChange']),
+        ...mapActions(['loadInformation','IndexChange','loadShoppingCart']),
         goback(){
             this.$router.push('individual')
             this.IndexChange(4)
@@ -75,7 +75,9 @@ export default {
             }
             this.loadInformation(data).then((resolve)=>{
                 if(this.login.success){
+                    this.loadShoppingCart()             //加载购物车
                     this.$router.push('individual')
+                    this.IndexChange(4)
                 }
             })
         }, 

@@ -8,7 +8,7 @@ Vue.use(Vuex)
 // 定义属性
 var state = {
     footerIndex: 0,          //底栏当前下标
-    cart_data: null,           //购物车数据
+    cart_data: [],           //购物车数据
     totalPrice: 0,           //总金额
     //当前用户数据
     information:{
